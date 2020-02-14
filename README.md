@@ -20,31 +20,31 @@
 ## Content
 The source code contains of the following sort algorithm.
 
-- insert sort
+- **insert sort**
     - base pointer
-    - base value
+    - based on value
 
-- select sort
-    - base pointer
-    - base value
+- **select sort**
+    - based on pointer
+    - based on value
 
-- bubble sort
-    - base pointer
-    - base value
+- **bubble sort**
+    - based on pointer
+    - based on value
 
-- heap sort base pointer
+- **quick sort** based on pointer
+    - using **k-medium** method
+    - using **BFPRT** algorithm
 
-- quick sort base pointer
-    - using k-medium
-    - using BFPRT
+- **heap sort** based on pointer
 
-- bucket sort base pointer
+- **bucket sort** based on pointer
 
-- 2-way merge sort base pointer
+- **2-way merge sort** based on pointer
 
-- shell sort base pointer
+- **shell sort** based on pointer
 
-- BFPRT algorithm
+- **BFPRT** algorithm
 
 ## Usage
 
@@ -58,6 +58,46 @@ Run executable file.
 
 ```shell
 $ ./run
+algorithm   : insert sort
+size of set : 65536 = 64.000 K = 0.062 M
+time of sort: [ 8.123493 S ]
+have checked: pass
+------------------------------------------------
+algorithm   : select sort
+size of set : 65536 = 64.000 K = 0.062 M
+time of sort: [ 13.073545 S ]
+have checked: pass
+------------------------------------------------
+algorithm   : bubble sort
+size of set : 65536 = 64.000 K = 0.062 M
+time of sort: [ 30.742655 S ]
+have checked: pass
+------------------------------------------------
+algorithm   : heap sort
+size of set : 65536 = 64.000 K = 0.062 M
+time of sort: [ 0.033225 S ]
+have checked: pass
+------------------------------------------------
+algorithm   : quick sort
+size of set : 65536 = 64.000 K = 0.062 M
+time of sort: [ 0.050058 S ]
+have checked: pass
+------------------------------------------------
+algorithm   : bucket sort
+size of set : 65536 = 64.000 K = 0.062 M
+time of sort: [ 0.011178 S ]
+have checked: pass
+------------------------------------------------
+algorithm   : merge sort
+size of set : 65536 = 64.000 K = 0.062 M
+time of sort: [ 0.017434 S ]
+have checked: pass
+------------------------------------------------
+algorithm   : shell sort
+size of set : 65536 = 64.000 K = 0.062 M
+time of sort: [ 0.027086 S ]
+have checked: pass
+------------------------------------------------
 ```
 
 Clear object files and executable file.
