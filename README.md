@@ -21,7 +21,7 @@
 The source code contains of the following sort algorithm.
 
 - **insert sort**
-    - base pointer
+    - based on pointer
     - based on value
 
 - **select sort**
@@ -52,6 +52,9 @@ Compile source code.
 
 ```shell
 $ make
+gcc -c ./src/test.c -o ./obj/test.o -g
+gcc -c ./src/sort_algo.c -o ./obj/sort_algo.o -g
+gcc ./obj/test.o ./obj/sort_algo.o -o run -lm
 ```
 
 Run executable file.
@@ -104,4 +107,5 @@ Clear object files and executable file.
 
 ```shell
 $ make clear
+rm ./obj/*.o
 ```
