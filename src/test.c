@@ -66,6 +66,14 @@ int main(int argc, char **argv) {
     
     rand_arr(val, ptr, min, max, SEED);
     begin = clock();
+    bubble_sort_p((void **)ptr, ELEM_NUM, &cmp_dbl);
+    end = clock();
+    cost_time = (double)(end - begin) / CLOCKS_PER_SEC;
+    print_info(ptr, "bubble", cost_time, check_ok(ptr), NO_SHOW);
+    
+    
+    rand_arr(val, ptr, min, max, SEED);
+    begin = clock();
     heap_sort_p((void **)ptr, ELEM_NUM, &cmp_dbl);
     end = clock();
     cost_time = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -103,14 +111,6 @@ int main(int argc, char **argv) {
     end = clock();
     cost_time = (double)(end - begin) / CLOCKS_PER_SEC;
     print_info(ptr, "shell", cost_time, check_ok(ptr), NO_SHOW);
-    
-    
-    rand_arr(val, ptr, min, max, SEED);
-    begin = clock();
-    bubble_sort_p((void **)ptr, ELEM_NUM, &cmp_dbl);
-    end = clock();
-    cost_time = (double)(end - begin) / CLOCKS_PER_SEC;
-    print_info(ptr, "bubble", cost_time, check_ok(ptr), NO_SHOW);
     
     
     return 0;

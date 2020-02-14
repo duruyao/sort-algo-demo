@@ -192,6 +192,16 @@ extern void select_sort_p   (void **, int,
                                       int(*)(const void *, const void *));
 
 /*****************************************************************************/
+/* bubble sort                                                               */
+/*****************************************************************************/
+
+extern void bubble_sort     (void *,  int, size_t, 
+                                      int(*)(const void *, const void *));
+
+extern void bubble_sort_p   (void **, int,
+                                      int(*)(const void *, const void *));
+
+/*****************************************************************************/
 /* heap sort                                                                 */
 /*****************************************************************************/
 
@@ -260,13 +270,6 @@ extern void merge_sort_p    (void **, int,
 extern int  gen_gap_p       (int **gap, int n);
 
 extern void shell_sort_p    (void **, int,
-                                      int(*)(const void *, const void *));
-
-/*****************************************************************************/
-/* bubble sort                                                               */
-/*****************************************************************************/
-
-extern void bubble_sort_p   (void **, int,
                                       int(*)(const void *, const void *));
 
 /*****************************************************************************/

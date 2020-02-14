@@ -213,6 +213,32 @@ void select_sort_p(void **arr, int n,
 }
 
 /*****************************************************************************/
+/* bubble sort                                                               */
+/*****************************************************************************/
+
+/*
+ * bubble sort function base pointers.
+ *
+ * best case   :   O(n)
+ * worst case  :   O(n ^ 2)
+ * average case:   O(n ^ 2)
+ */
+
+void bubble_sort_p(void **arr, int n,
+                   int(*cmp)(const void *, const void *)) {
+    int flag = 1;
+    for (int i = 0; flag && i < n - 1; i++) {
+        flag = 0;
+        for (int j = 0; j < n - i - 1; j++) {
+            if (cmp(arr[j], arr[j + 1]) > 0) {
+                SWAP_PTR(arr[j], arr[j + 1]);
+                flag = 1;
+            }
+        }
+    }
+}
+
+/*****************************************************************************/
 /* heap sort                                                                 */
 /*****************************************************************************/
 
@@ -643,32 +669,6 @@ void shell_sort_p(void **arr, int n,
         }
     }
     free(gap);
-}
-
-/*****************************************************************************/
-/* bubble sort                                                               */
-/*****************************************************************************/
-
-/*
- * bubble sort function base pointers.
- *
- * best case   :   O(n)
- * worst case  :   O(n ^ 2)
- * average case:   O(n ^ 2)
- */
-
-void bubble_sort_p(void **arr, int n,
-                   int(*cmp)(const void *, const void *)) {
-    int flag = 1;
-    for (int i = 0; flag && i < n - 1; i++) {
-        flag = 0;
-        for (int j = 0; j < n - i - 1; j++) {
-            if (cmp(arr[j], arr[j + 1]) > 0) {
-                SWAP_PTR(arr[j], arr[j + 1]);
-                flag = 1;
-            }
-        }
-    }
 }
 
 /*****************************************************************************/
