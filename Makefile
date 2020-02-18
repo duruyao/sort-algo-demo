@@ -1,5 +1,6 @@
-run: ./obj/test.o ./obj/sort_algo.o
-	gcc ./obj/test.o ./obj/sort_algo.o -o run -lm
+./bin/run: ./obj/test.o ./obj/sort_algo.o
+	gcc ./obj/test.o ./obj/sort_algo.o -o ./bin/run -lm
+	cp ./bin/run run
 
 ./obj/test.o: ./src/test.c
 	gcc -c ./src/test.c -o ./obj/test.o -g

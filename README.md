@@ -1,4 +1,4 @@
-# Sort Algorithm
+# Sort Algorithm & Demo
 
 
 ## Directory

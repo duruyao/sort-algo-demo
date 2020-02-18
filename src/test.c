@@ -90,8 +90,7 @@ int main(int argc, char **argv) {
     
     rand_arr(val, ptr, min, max, SEED);
     begin = clock();
-    bucket_sort_p((void **)ptr, ELEM_NUM, 
-                   &num_bucket_p, &hash_idx_p, &cmp_dbl);
+    bucket_sort_p((void **)ptr, ELEM_NUM, &nb_bkts_p, &hash_idx_p, &cmp_dbl);
     end = clock();
     cost_time = (double)(end - begin) / CLOCKS_PER_SEC;
     print_info(ptr, "bucket", cost_time, check_ok(ptr), NO_SHOW);

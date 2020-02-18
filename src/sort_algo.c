@@ -19,11 +19,16 @@
 #include "sort_algo.h"
 
 
-/*****************************************************************************/
-/*                                                                           */
-/* struct defination                                                         */
-/*                                                                           */
-/*****************************************************************************/
+/******************************************************************************/
+/*                                                                            */
+/* struct defination                                                          */
+/*                                                                            */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Bucket type                                                                */
+/******************************************************************************/
 
 /*
 
@@ -37,8 +42,8 @@ array of Bucket type
   |     |______|  | Entry          |  | Entry          |  | Entry          |
   |     |      |  |    ____________|  |    ____________|  |    ____________|
   |     |*head===>|   |     |      |  |   |     |      |  |   |     |      |
-  |     |      |  |   |*ele |*next--->|   |*ele |*next--->|   |*ele |*next--->
-  |     |      |  |   | ment|      |  |   | ment|      |  |   | ment|      |
+  |     |      |  |   |*data|*next--->|   |*data|*next--->|   |*data|*next--->
+  |     |      |  |   |     |      |  |   |     |      |  |   |     |      |
 1 |_____|______|  |___|_____|______|  |___|_____|______|  |___|_____|______|
   | Bucket     |
   |      ______|
@@ -47,8 +52,8 @@ array of Bucket type
   |     |______|  | Entry          |  | Entry          |  | Entry          |
   |     |      |  |    ____________|  |    ____________|  |    ____________|
   |     |*head===>|   |     |      |  |   |     |      |  |   |     |      |
-  |     |      |  |   |*ele |*next--->|   |*ele |*next--->|   |*ele |*next--->
-  |     |      |  |   | ment|      |  |   | ment|      |  |   | ment|      |
+  |     |      |  |   |*data|*next--->|   |*data|*next--->|   |*data|*next--->
+  |     |      |  |   |     |      |  |   |     |      |  |   |     |      |
 2 |_____|______|  |___|_____|______|  |___|_____|______|  |___|_____|______|
   | Bucket     |
   |      ______|
@@ -57,8 +62,8 @@ array of Bucket type
   |     |______|  | Entry          |  | Entry          |  | Entry          |
   |     |      |  |    ____________|  |    ____________|  |    ____________|
   |     |*head===>|   |     |      |  |   |     |      |  |   |     |      |
-  |     |      |  |   |*ele |*next--->|   |*ele |*next--->|   |*ele |*next--->
-  |     |      |  |   | ment|      |  |   | ment|      |  |   | ment|      |
+  |     |      |  |   |*data|*next--->|   |*data|*next--->|   |*data|*next--->
+  |     |      |  |   |     |      |  |   |     |      |  |   |     |      |
 3 |_____|______|  |___|_____|______|  |___|_____|______|  |___|_____|______|
   
   ... ...
@@ -66,29 +71,29 @@ array of Bucket type
 */
 
 struct entry {
-    void *element;
-    struct entry *next;
+    void  *data;        /* pointer to an opaque type data      */  
+    struct entry *next; /* pointer to the next Entry type data */
 };
 
 struct bucket {
-    int size;
-    Entry *head;
+    unsigned size;
+    Entry   *head;
 };
 
 
-/*****************************************************************************/
-/*                                                                           */
-/* function defination                                                       */
-/*                                                                           */
-/*****************************************************************************/
+/******************************************************************************/
+/*                                                                            */
+/* function defination                                                        */
+/*                                                                            */
+/******************************************************************************/
 
 
-/*****************************************************************************/
-/* compare func                                                              */
-/*****************************************************************************/
+/******************************************************************************/
+/* compare func                                                               */
+/******************************************************************************/
 
 /*
- * compare function for uint8_t data type.
+ * compare function for unsigned 8 bits integer type data.
  *
  * @return 1 (*p1 > *p2), -1 (*p1 < *p2), 0 (*p1 = *p2)
  */
@@ -99,7 +104,7 @@ int cmp_uint8(const void *ptr1, const void *ptr2) {
 }
 
 /*
- * compare function for double floating point data type.
+ * compare function for double floating point type data.
  *
  * @return 1 (*p1 > *p2), -1 (*p1 < *p2), 0 (*p1 = *p2)
  */
@@ -110,7 +115,7 @@ int cmp_dbl(const void *ptr1, const void *ptr2) {
 }
 
 /*
- * compare function for double floating point data type.
+ * compare function for double floating point type data.
  *
  * @return -1 (*p1 > *p2), 1 (*p1 < *p2), 0 (*p1 = *p2)
  */
@@ -120,16 +125,21 @@ int cmp_dbl_rev(const void *ptr1, const void *ptr2) {
     return *p1 == *p2 ? 0 : (*p1 > *p2 ? -1 : 1);
 }
 
-/*****************************************************************************/
-/* insert sort                                                               */
-/*****************************************************************************/
+/******************************************************************************/
+/* insert sort                                                                */
+/******************************************************************************/
 
 /*
- * insert sort function base value.
+ * insert sort function based on value.
  *
- * best case   : O(n)
- * worst case  : O(n ^ 2)
+ * best    case: O(n)
+ * worst   case: O(n ^ 2)
  * average case: O(n ^ 2)
+ *
+ * @param arr is a an allocated array of opaque type data.
+ * @param n   is number of elements in the array.
+ * @param s   is size of target element bytes.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void insert_sort(void *arr, int n, size_t s, 
@@ -146,11 +156,15 @@ void insert_sort(void *arr, int n, size_t s,
 }
 
 /*
- * insert sort function base pointer.
+ * insert sort function based on pointer.
  *
- * best case   : O(n)
- * worst case  : O(n ^ 2)
+ * best    case: O(n)
+ * worst   case: O(n ^ 2)
  * average case: O(n ^ 2)
+ *
+ * @param arr is an allocated array of pointers to opaque type data.
+ * @param n   is number of elements in the array.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void insert_sort_p(void **arr, int n, 
@@ -164,16 +178,21 @@ void insert_sort_p(void **arr, int n,
    }
 }
 
-/*****************************************************************************/
-/* select sort                                                               */
-/*****************************************************************************/
+/******************************************************************************/
+/* select sort                                                                */
+/******************************************************************************/
 
 /*
- * select sort function base pointer.
+ * select sort function based on pointer.
  *
- * best case   : O(n ^ 2)
- * worst case  : O(n ^ 2)
+ * best    case: O(n ^ 2)
+ * worst   case: O(n ^ 2)
  * average case: O(n ^ 2)
+ *
+ * @param arr is a an allocated array of opaque type data.
+ * @param n   is number of elements in the array.
+ * @param s   is size of target element bytes.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void select_sort(void *arr, int n, size_t s,
@@ -192,11 +211,15 @@ void select_sort(void *arr, int n, size_t s,
 }
 
 /*
- * select sort function base pointer.
+ * select sort function based on pointer.
  *
- * best case   : O(n ^ 2)
- * worst case  : O(n ^ 2)
+ * best    case: O(n ^ 2)
+ * worst   case: O(n ^ 2)
  * average case: O(n ^ 2)
+ *
+ * @param arr is an allocated array of pointers to opaque type data.
+ * @param n   is number of elements in the array.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void select_sort_p(void **arr, int n,
@@ -212,16 +235,20 @@ void select_sort_p(void **arr, int n,
     }
 }
 
-/*****************************************************************************/
-/* bubble sort                                                               */
-/*****************************************************************************/
+/******************************************************************************/
+/* bubble sort                                                                */
+/******************************************************************************/
 
 /*
- * bubble sort function base pointers.
+ * bubble sort function based on pointer.
  *
- * best case   :   O(n)
- * worst case  :   O(n ^ 2)
+ * best    case:   O(n)
+ * worst   case:   O(n ^ 2)
  * average case:   O(n ^ 2)
+ *
+ * @param arr is an allocated array of pointers to opaque type data.
+ * @param n   is number of elements in the array.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void bubble_sort_p(void **arr, int n,
@@ -238,14 +265,19 @@ void bubble_sort_p(void **arr, int n,
     }
 }
 
-/*****************************************************************************/
-/* heap sort                                                                 */
-/*****************************************************************************/
+/******************************************************************************/
+/* heap sort                                                                  */
+/******************************************************************************/
 
 /*
- * keep attribute of heap base pointer.
+ * keep attribute (big top or small top) of heap based on pointer.
  *
- * the heap is big top heap (default).
+ * if compare function is 'cmp()', keep a big top, otherwise keep a small heap.
+ *
+ * @param arr   is an allocated array of pointers to opaque type data.
+ * @param begin is the first index.
+ * @param end   is the last index.
+ * @param cmp   is a pointer to a function comparing elements.
  */
 
 void heapify_p(void **arr, int begin, int end,
@@ -264,9 +296,12 @@ void heapify_p(void **arr, int begin, int end,
 }
 
 /*
- * build a heap base pointer by using one-dimension array. 
- * 
- * @param k is the max number of elements in heap.
+ * build a heap (big top heap or small top heap) based on pointer by using
+ * one-dimension array. 
+ *
+ * @param arr is an allocated array of pointers to opaque type data.
+ * @param k   is the max number of elements in heap.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void heap_build_p(void **arr, int k,
@@ -278,7 +313,11 @@ void heap_build_p(void **arr, int k,
 /*
  * get top element of heap.
  *
- * @return the element which is the top of heap.
+ * @param arr is an allocated array of pointers to opaque type data, the arr
+ *            store elements of heap, the array has stored elements of an
+ *            ordered heap.
+ *
+ * @return a pointer to the top element of heap.
  */
 
 void *heap_top_p(void **arr) {
@@ -288,13 +327,19 @@ void *heap_top_p(void **arr) {
 /*
  * insert a new element into a heap.
  *
- * @param n is the current number of elements in heap.
- * @param k is the max number of elements in heap.
+ * @param arr is an allocated array of pointers to opaque type data, the arr
+ *            store elements of heap, the array has stored elements of an
+ *            ordered heap.
+ * @param new is a pointer to opaque element who will be inserted in the heap.
+ * @param n   is the current number of elements in heap.
+ * @param k   is the max number of elements in heap.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void heap_insert_p(void **arr, void *new, int n, int k,
                    int(*cmp)(const void *, const void *)) {
-    if (n + 1 > k) return;
+    if (n + 1 > k)
+        return;
     arr[n] = new;
     int p_idx = (n - 1) / 2, c_idx = n;
     while (p_idx >= 0 && cmp(arr[c_idx], arr[p_idx]) > 0) {
@@ -307,6 +352,12 @@ void heap_insert_p(void **arr, void *new, int n, int k,
 /*
  * replace the top of heap and keep the nature of heap.
  *
+ * @param arr is an allocated array of pointers to opaque type data, the arr
+ *            store elements of heap, the array has stored elements of an
+ *            ordered heap.
+ * @param new is a pointer to opaque element who will be new top of heap.
+ * @param n   is the number of elements in old heap.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void heap_repl_p(void **arr, void *new, int n,
@@ -318,9 +369,13 @@ void heap_repl_p(void **arr, void *new, int n,
 /*
  * delete top of heap and keep the nature of heap.
  *
- * @param n is the number of elements in old heap.
+ * @param arr is an allocated array of pointers to opaque type data, the arr
+ *            store elements of heap, the array has stored elements of an
+ *            ordered heap.
+ * @param n   is the number of elements in old heap.
+ * @param cmp is a pointer to a function comparing elements.
  *
- * @return the element which is the top of heap.
+ * @return a pointer to the top element of heap.
  */
 
 void *heap_del_p(void **arr, int n,
@@ -333,11 +388,18 @@ void *heap_del_p(void **arr, int n,
 }
 
 /*
- * heap sort function base pointer.
+ * heap sort function based on pointer.
+ * 
+ * the final order of input array depends on compare function is 'cmp()' or
+ * 'cmp_rev()'.
  *
- * best case   : O(n * log n)
- * worst case  : O(n * log n)
+ * best    case: O(n * log n)
+ * worst   case: O(n * log n)
  * average case: O(n * log n)
+ *
+ * @param arr is an allocated array of pointers to opaque type data.
+ * @param n   is number of elements in the array.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void heap_sort_p(void **arr, int n,
@@ -350,15 +412,20 @@ void heap_sort_p(void **arr, int n,
 }
 
 /*
- * select the k-th smallest or largest element of set by using heap.
- *
- * @param max_n is the number of elements of input set.
- * @param k is the size of the heap.
- * @param cmp is 'cmp()' (select the k-th smallest), is 'cmp_rev()' (
- * select the k-th largest).
+ * select the k-th element of set by using heap.
  * 
- * time complexity : O(n * log k)
+ * if the compare function is 'cmp()', select the k-th smallest element, if
+ * it is 'cmp_rev()', select the k-th largest element.
+ *
+ * time  complexity: O(n * log k)
  * space complexity: O(k)
+ *
+ * @param set   is an input allocated set.
+ * @param max_n is the number of elements of input set.
+ * @param k     is the size of the heap.
+ * @param cmp   is a pointer to a function comparing elements.
+ *
+ * @return a pointer to the k-th element on success, otherwise NULL.
  */
 
 void *heap_top_k_p(void **set, int max_n, int k,
@@ -388,18 +455,25 @@ void *heap_top_k_p(void **set, int max_n, int k,
     return k_ptr;
 }
 
-/*****************************************************************************/
-/* quick sort                                                                */
-/*****************************************************************************/
+/******************************************************************************/
+/* quick sort                                                                 */
+/******************************************************************************/
 
 /*
- * select the best pivot index from array base pointer.
+ * select the best pivot index from array based on pointer using 3-mid method.
  *
  * select param 'left' as the best index (number of elements < 3).
- * using three-medium-value method to select index (number of element >= 3).
+ * using three-middle-value method to select index (number of element >= 3).
+ *
+ * @param arr   is an allocated array of pointers to opaque type data.
+ * @param left  is left index of array.
+ * @param right is right index of array.
+ * @param cmp   is a pointer to a function comparing elements.
+ *
+ * @return the index of the middle value.
  */
 
-int three_med_val_p(void **arr, int left, int right,
+int three_mid_val_p(void **arr, int left, int right,
                     int(*cmp)(const void *, const void *)) {
     if (right - left + 1 < 3)
         return left;
@@ -418,17 +492,22 @@ int three_med_val_p(void **arr, int left, int right,
 }
 
 /*
- * quick sort function base pointer.
+ * quick sort function based on pointer.
  *
- * best case   : < O(n * log n)
- * worst case  :   O(n ^ 2)
+ * best    case: < O(n * log n)
+ * worst   case:   O(n ^ 2)
  * average case:   O(n * log n)
+ *
+ * @param arr   is an allocated array of pointers to opaque type data.
+ * @param left  is left index of array.
+ * @param right is right index of array.
+ * @param cmp   is a pointer to a function comparing elements.
  */
 
 void quick_sort_p(void **arr, int begin, int end,
                   int(*cmp)(const void *, const void *)) {
     if (end - begin > 1) {
-        // int pivot = three_med_val_p(arr, begin, end - 1, cmp);
+        // int pivot = three_mid_val_p(arr, begin, end - 1, cmp);
         int pivot = BFPRT_p_idx_p(arr, begin, end, cmp);
         int low   = begin;
         int high  = end - 1;
@@ -445,19 +524,21 @@ void quick_sort_p(void **arr, int begin, int end,
     }
 }
 
-/*****************************************************************************/
-/* bucket sort                                                               */
-/*****************************************************************************/
+/******************************************************************************/
+/* bucket sort                                                                */
+/******************************************************************************/
 
 /*
  * computing the most suitable number of buckets.
  *
  * the spetific algorithm depends on attribute input data set.
  *
- * @param n is number of item of input data set.
+ * @param n is number of element of input data set.
+ *
+ * @return size of array of buckets.
  */
 
-int num_bucket_p(int n) {
+int nb_bkts_p(int n) {
     if (n < 2 * 512) return 26 * 26;
     if (n < 2 * 65536) return 26 * 26 * 26;
     return 26 * 26 * 26 * 26;
@@ -470,12 +551,15 @@ int num_bucket_p(int n) {
  * the following hash func is suit for a specific set, that contains of 
  * double floating point type data and their scope is [256, 25536].
  * 
- * @param k is number of buckets.
+ * @param data is a pointer to a element who will be inserted in bucket.
+ * @param k    is number of buckets.
+ *
+ * @return the index in which element should be inserted.
  */
 
-int hash_idx_p(void *ele, int k) {
+int hash_idx_p(void *data, int k) {
     double min = 256, max = 65536;
-    return (int)(k * (*(double *)ele - min) / (max - min));
+    return (int)abs(k * (*(double *)data- min) / (max - min)) % k;
 }
 
 /*
@@ -486,6 +570,12 @@ int hash_idx_p(void *ele, int k) {
  * 3. release memory allocated from linked list of every inside of bucket.
  *
  * @param n is number of item of input set, k is number of buckets.
+ *
+ * @param arr     is an input allocated array of pointers to opaque type data.
+ * @param buckets is a pointer to address of array of buckets.
+ * @param n       is the number of elements of input set.
+ * @param k       is the size of the heap.
+ * @param cmp     is a pointer to a function comparing elements.
  */
 
 void ext_bucket_p(void **arr, Bucket *buckets, int n, 
@@ -497,17 +587,17 @@ void ext_bucket_p(void **arr, Bucket *buckets, int n,
         pe = buckets[i].head;
         if (pe == NULL) continue;
         low = pos;
-        arr[pos++] = pe->element;
+        arr[pos++] = pe->data;
         pt = pe;
         pe = pe->next;
         free(pt);
         for (int j; pe != NULL;) {
             j = pos - 1;
-            while (j >= low && cmp(arr[j], pe->element) > 0) {
+            while (j >= low && cmp(arr[j], pe->data) > 0) {
                 arr[j + 1] = arr[j];
                 j--;
             }
-            arr[j + 1] = pe->element;
+            arr[j + 1] = pe->data;
             pos++;
             pt = pe;
             pe = pe->next;
@@ -518,7 +608,7 @@ void ext_bucket_p(void **arr, Bucket *buckets, int n,
 }
 
 /*
- * bucket sort function base pointer.
+ * bucket sort function based on pointer.
  *
  * the algorithm is suitable for some specific data sets, such as a set, 
  * which contains of double floating point type data and their scope known,
@@ -528,16 +618,22 @@ void ext_bucket_p(void **arr, Bucket *buckets, int n,
  *
  * time complexity : O(n)
  * space complexity: O(k)
+ *
+ * @param arr     is an input allocated array of pointers to opaque type data.
+ * @param n       is the number of elements of input set.
+ * @param nb_bkts is a pointer to a function getting suitable number of buckets.
+ * @param hash    is pointer to a hash func getting index.
+ * @param cmp     is a pointer to a function comparing elements.
  */
 
 void bucket_sort_p(void **arr, int n, 
-                   int(*num_bucket)(int),
+                   int(*nb_bkts)(int),
                    int(*hash)(void *, int), 
                    int(*cmp)(const void *, const void *)) {
     Bucket *buckets = NULL;
-    Entry *e = NULL;
-    int idx  = 0;
-    int k    = num_bucket(n);
+    Entry  *e       = NULL;
+    int idx = 0;
+    int k   = nb_bkts(n);
 
     /* allocate memory for k buckets */
     buckets = (Bucket *)malloc(k * sizeof(Bucket));
@@ -550,12 +646,11 @@ void bucket_sort_p(void **arr, int n,
     for (int i = 0; i < n; i++) {
         idx = hash(arr[i], k);
         e = (Entry *)malloc(1 * sizeof(Entry));
-        e->element = arr[i];
+        e->data = arr[i];
         if (buckets[idx].head == NULL) {
             buckets[idx].head = e;
             buckets[idx].size = 1;
-        }
-        else {
+        } else {
             e->next = buckets[idx].head;
             buckets[idx].head = e;
             buckets[idx].size++;
@@ -569,15 +664,21 @@ void bucket_sort_p(void **arr, int n,
     free(buckets);
 }
 
-/*****************************************************************************/
-/* merge sort                                                                */
-/*****************************************************************************/
+/******************************************************************************/
+/* merge sort                                                                 */
+/******************************************************************************/
 
 /*  
  * merge sort internal recursive function.
  *
  * @param pointer 'copy' point to an allocated memory, which should be released
  * by caller.
+ *
+ * @param copy   is an allocated array, who is source array.
+ * @param result is an allocated array, who is destination array.
+ * @param begin  is the first index of array.
+ * @param end    is the last  index of array.
+ * @param cmp    is a pointer to a function comparing elements.
  */
 
 void m_sort_p(void **copy, void **result,
@@ -597,10 +698,14 @@ void m_sort_p(void **copy, void **result,
 }
 
 /*
- * merge sort function base pointers.
+ * merge sort function based on pointer.
  *
- * time complexity : O(n * log n)
+ * time  complexity: O(n * log n)
  * space complexity: O(n)
+ *
+ * @param arr is an allocated array of pointers to opaque type data.
+ * @param n   is number of elements in the array.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void merge_sort_p(void **arr, int n,
@@ -616,15 +721,18 @@ void merge_sort_p(void **arr, int n,
     free(copy);
 }
 
-/*****************************************************************************/
-/* shell sort                                                                */
-/*****************************************************************************/
+/******************************************************************************/
+/* shell sort                                                                 */
+/******************************************************************************/
 
 /*  
  * generate a gap array for shell sort.
  *
- * @param pointer 'gap' point to an address of gap array, which will be
- * allocated memory in function and should be released by caller.
+ * @param gap is a pointer to an address of gap array, which will be allocated
+ *            memory in function and should be released by caller.
+ * @param n   is number of elements of input set.
+ *
+ * @return size of gap array on success, otherwise -1.
  */
 
 int gen_gap_p(int **gap, int n){
@@ -643,11 +751,15 @@ int gen_gap_p(int **gap, int n){
 }
 
 /*
- * shell sort function base pointers.
+ * shell sort function based on pointer.
  *
- * best case   :   O(n * log n)
- * worst case  :   O(n * (log ^ 2 (n)))
+ * best    case:   O(n * log n)
+ * worst   case:   O(n * (log ^ 2 (n)))
  * average case:   O(n) ~ O(n ^ 2)
+ *
+ * @param arr is an allocated array of pointers to opaque type data.
+ * @param n   is number of elements in the array.
+ * @param cmp is a pointer to a function comparing elements.
  */
 
 void shell_sort_p(void **arr, int n,
@@ -671,16 +783,21 @@ void shell_sort_p(void **arr, int n,
     free(gap);
 }
 
-/*****************************************************************************/
-/* BFPRT                                                                     */
-/*****************************************************************************/
+/******************************************************************************/
+/* BFPRT                                                                      */
+/******************************************************************************/
 
 /*
- * select pivot that is median of median.
+ * select pivot that is middle of middle.
  *
  * 1. partition set into multiple groups, every group has 5 elements.
- * 2. select medians of every group, make them form a new set.
+ * 2. select middles of every group, make them form a new set.
  * 3. 1. ~ 2. ~ 1. ~ 2. ~
+ *
+ * @param arr   is an allocated array of pointers to opaque type data.
+ * @param begin is left index of array.
+ * @param end   is right index of array.
+ * @param cmp   is a pointer to a function comparing elements.
  *
  * @return index of pivot.
  */
@@ -703,12 +820,18 @@ int BFPRT_p_idx_p(void **arr, int begin, int end,
 }
 
 /*
- * partition elements depending on pivot index;
+ * partition elements depending on pivot value;
  *
- * some keys less than pivot key and their indexes less than pivot index.
- * other keys more than pivot key and their indexes more than pivot index.
+ * some values less than pivot value and their indexes less than pivot index.
+ * other values more than pivot value and their indexes more than pivot index.
  *
- * @return index of pivot key after partitioning.
+ * @param arr       is an allocated array of pointers to opaque type data.
+ * @param begin     is left index of array.
+ * @param end       is right index of array.
+ * @param pivot_idx is index of pivot value.
+ * @param cmp       is a pointer to a function comparing elements.
+ *
+ * @return index of pivot value after partitioning.
  */
 
 int partition_p(void **arr, int begin,
@@ -727,13 +850,20 @@ int partition_p(void **arr, int begin,
 }
 
 /*
- * select index of the k-th smallest element using BFPRT algorithm.
+ * select index of the k-th element using BFPRT algorithm.
  *
- * worst case  : O(n)
+ * worst case: O(n)
+ *
+ * @param arr   is an allocated array of pointers to opaque type data.
+ * @param begin is left index of array.
+ * @param end   is right index of array.
+ * @param k     is target top number.
+ * @param cmp   is a pointer to a function comparing elements.
+ *
+ * @return index of k-th element.
  */
 
-int BFPRT_k_idx_p(void **arr, int begin,
-                  int end, int k,
+int BFPRT_k_idx_p(void **arr, int begin, int end, int k,
                   int(*cmp)(const void *, const void *)) {
     if (end - begin < 2) return begin;
     int pivot_idx = BFPRT_p_idx_p(arr, begin, end, cmp);
