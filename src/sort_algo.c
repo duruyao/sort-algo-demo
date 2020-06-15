@@ -148,6 +148,7 @@ void insert_sort(void *arr, int n, size_t s,
     for (int i = 1, j = 0; i < n; i++, j = i - 1) {
         for (; j >= 0 && cmp(arr + j * s, arr + i * s) > 0; j--);
         if (++j == i) continue;
+        /* for array of void, address of ele is 'arr + i * s' but 'arr + i'*/
         memmove(temp, arr + i * s, s);
         memmove(arr + (j + 1) * s, arr + j * s, (i - j) * s);
         memmove(arr + j * s, temp, s);
@@ -753,9 +754,9 @@ int gen_gap_p(int **gap, int n){
 /*
  * shell sort function based on pointer.
  *
- * best    case:   O(n * log n)
- * worst   case:   O(n * (log ^ 2 (n)))
- * average case:   O(n) ~ O(n ^ 2)
+ * best    case:   O(n)
+ * worst   case:   ?
+ * average case:   ?
  *
  * @param arr is an allocated array of pointers to opaque type data.
  * @param n   is number of elements in the array.
